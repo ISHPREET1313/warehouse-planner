@@ -14,7 +14,7 @@ Project: Warehouse Robot Path and Task Planner (CSEG3053). Rules live in `../PRO
 - Add notes for each finished build item (what, why, complexity, viva questions).
 
 ## Controlled tags
-`project`, `process`, `environment`, `graphify`, `metrics`, `parser`, `graph`, `heap`, `testing`, `complexity`, `viva`
+`project`, `process`, `environment`, `graphify`, `metrics`, `parser`, `graph`, `heap`, `dijkstra`, `testing`, `complexity`, `viva`
 
 ## Registry
 ### project
@@ -41,6 +41,10 @@ Project: Warehouse Robot Path and Task Planner (CSEG3053). Rules live in `../PRO
 ### heap
 - `20261119-heap-design-and-complexity` — **Min-heap design and complexity** — `topics/heap/heap-design-and-complexity.md` — Array layout, push/pop, lazy deletion, best/average/worst.
 - `20261119-heap-viva-questions` — **Min-heap explain-back and viva questions** — `topics/heap/heap-viva-questions.md` — 5-line summary and likely evaluator questions.
+
+### dijkstra
+- `20261119-dijkstra-design-and-complexity` — **Dijkstra with heap design and complexity** — `topics/dijkstra/dijkstra-design-and-complexity.md` — Loop, lazy deletion, counters, best/average/worst, hand example.
+- `20261119-dijkstra-viva-questions` — **Dijkstra explain-back and viva questions** — `topics/dijkstra/dijkstra-viva-questions.md` — 5-line summary and likely evaluator questions.
 
 ### graph
 - `20261119-graph-design-and-complexity` — **Grid to graph design and complexity** — `topics/graph/graph-design-and-complexity.md` — Nodes, arcs, CSR storage, BFS reachability, time and space.

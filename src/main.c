@@ -8,10 +8,42 @@
  */
 #include <stdio.h>
 
+#include "dijkstra.h"
 #include "graph.h"
 #include "io.h"
 #include "metrics.h"
 #include "problem.h"
+
+/* Run Dijkstra (heap version) once per robot and print the cost from the
+ * robot's start to every task, then that run's time and operation counts. */
+static void report_distances(const Problem *p, const Graph *g)
+{
+    ShortestPaths sp;
+    Timer t;
+    int r, k, d;
+
+    printf("shortest path costs (Dijkstra with heap):\n");
+    for (r = 0; r < p->n_robots; r++) {
+        metrics_reset();
+        timer_start(&t);
+        if (dijkstra(g, graph_node(g, p->robots[r].row, p->robots[r].col), &sp) != 0) {
+            printf("  robot %d: dijkstra failed\n", r + 1);
+            continue;
+        }
+        printf("  robot %d:", r + 1);
+        for (k = 0; k < p->n_tasks; k++) {
+            d = sp.dist[graph_node(g, p->tasks[k].row, p->tasks[k].col)];
+            if (d >= DIST_INF) {
+                printf(" T%d=unreachable", k + 1);
+            } else {
+                printf(" T%d=%d", k + 1, d);
+            }
+        }
+        printf("\n    elapsed_ms=%.3f ", timer_elapsed_ms(&t));
+        metrics_print();
+        sp_free(&sp);
+    }
+}
 
 /* Build the graph of p and print its size and any unreachable tasks. */
 static int report_graph(const Problem *p)
@@ -43,6 +75,7 @@ static int report_graph(const Problem *p)
             }
         }
     }
+    report_distances(p, &g);
     graph_free(&g);
     return 0;
 }

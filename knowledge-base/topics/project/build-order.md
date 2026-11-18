@@ -21,7 +21,7 @@ PRIMARY
 2. Parser and validator - DONE (user verified, 139/139 tests).
 3. Grid to graph conversion - DONE (user verified, 231/231 tests).
 4. Min-heap (Claude writes it since the 2026-11-19 authorship change) - CODE WRITTEN, waiting for the user's build/test output.
-5. Dijkstra with heap (Claude writes it too).
+5. Dijkstra with heap (Claude writes it too) - CODE WRITTEN and wired in, waiting for the same build/test output.
 6. Dijkstra with array scan, and Bellman-Ford, as comparisons.
 7. Test suite: normal, boundary, invalid, stress, adversarial.
 8. CLI menu and ASCII path replay.

@@ -7,8 +7,8 @@ Follow the build order. Do not start a lower tier until the one above is finishe
 2. [done, verified 139/139, explain-back pending] Parser and validator
 3. [done, verified 231/231, explain-back pending] Grid to graph conversion
 4. [code written and wired, NOT yet run] Min-heap (Claude writes it since the authorship change) - waiting for user's `make clean && make test` output
-5. Dijkstra with heap (Claude writes it; admin reviews) - NEXT after item 4 is verified
-6. Dijkstra with array scan, and Bellman-Ford, as comparisons
+5. [code written and wired, NOT yet run] Dijkstra with heap (Claude writes it; admin reviews) - waiting for the same `make clean && make test` output
+6. Dijkstra with array scan, and Bellman-Ford, as comparisons - NEXT after items 4 and 5 are verified
 7. Test suite: normal, boundary, invalid, stress, adversarial, expected vs actual table
 8. CLI menu and ASCII path replay
 9. Benchmarks and CSV output
@@ -27,8 +27,8 @@ Follow the build order. Do not start a lower tier until the one above is finishe
 18. raylib replay viewer
 
 ## Open housekeeping
-- User: run the item 4 build/test, then commit and push (Graphify needs the push).
-- User: answer the review questions in docs/QUESTIONS.md Q15 (items 1 to 4).
+- User: run the item 4 and 5 build/test and `./planner.exe data/small/sample1.txt`, then commit and push (Graphify needs the push).
+- User: answer the review questions in docs/QUESTIONS.md Q15 (items 1 to 5).
 - Try `make clean` on the user's shell (not yet confirmed).
 - Add a knowledge-base note per finished item and update INDEX.md.
 - Review docs/QUESTIONS.md together after the project core is done.

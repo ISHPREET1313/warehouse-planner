@@ -27,3 +27,6 @@ One line per decision, with the reason.
 - 2026-11-19 Heap capacity limit HEAP_MAX_CAPACITY = 50,000,000; push on a full heap returns -1, no realloc. Reason: simple, predictable memory, and 2*i+1 can never overflow an int.
 - 2026-11-19 Heap counters: each key comparison counts one comparison; sift_down counts two per level (child vs child, item vs child); only successful push/pop are counted. Reason: matches the fixed counter definitions in metrics.h.
 - 2026-11-19 Item 3 verified by the user (231/231 tests, sample1 prints 48 nodes, 38 walkable, 94 arcs).
+- 2026-11-19 Dijkstra (item 5) uses lazy deletion with a heap of arcs + 1 pairs, rejects weights outside 0..1000 before any work, and returns -1 with an empty result on bad input. Reason: simple to explain, negative weights would silently give wrong answers, and small limits keep sums far below DIST_INF.
+- 2026-11-19 Dijkstra counters: one relaxation per arc tested, one comparison per pop for the stale check (plus the heap's own), dist and prev added to aux_bytes. Reason: keeps the item 6 comparison fair.
+- 2026-11-19 `planner <file>` runs Dijkstra once per robot start and prints cost to every task with time and counters. Reason: first visible output of the core algorithm for the demo.

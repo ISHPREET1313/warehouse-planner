@@ -8,6 +8,7 @@ int main(void)
     test_parser();
     test_graph();
     test_heap();
-    /* later: test_dijkstra(); ... */
+    test_dijkstra();
+    /* later: test_bellman_ford(); ... */
     return harness_summary();
 }
