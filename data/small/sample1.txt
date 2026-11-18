@@ -1,0 +1,15 @@
+# sample1: 6 rows x 8 cols, 2 robots, 3 tasks.
+# Robots: R at (2,1) and (4,5).  Tasks: T at (2,6), (4,2), (5,6).
+MAP 6 8
+D......C
+.SS..SS.
+.R.##.T.
+.SS..SS.
+..T..R..
+C.....T.
+
+ROBOT 10 40
+ROBOT 6 30
+TASK 4 20 3
+TASK 3 15 5
+TASK 5 30 1

@@ -1,0 +1,8 @@
+# bad_count: the map has two R cells but only one ROBOT line.
+# Expected: PARSE_ERR_COUNT ("fewer ROBOT lines than R cells").
+MAP 3 4
+R..R
+.#..
+..T.
+ROBOT 5 20
+TASK 2 10 3
