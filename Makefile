@@ -25,11 +25,11 @@ endif
 
 # Algorithm/support modules shared by the planner and the tests.
 # Add each new module here as we build it (grid.c, heap.c, dijkstra.c, ...).
-CORE_SRC = src/metrics.c src/problem.c src/io.c
+CORE_SRC = src/metrics.c src/problem.c src/io.c src/graph.c src/heap.c
 CORE_OBJ = $(CORE_SRC:.c=.o)
 
 MAIN_OBJ = src/main.o
-TEST_OBJ = tests/run_tests.o tests/harness.o tests/test_metrics.o tests/test_parser.o
+TEST_OBJ = tests/run_tests.o tests/harness.o tests/test_metrics.o tests/test_parser.o tests/test_graph.o tests/test_heap.o
 
 HEADERS = $(wildcard src/*.h) $(wildcard tests/*.h)
 

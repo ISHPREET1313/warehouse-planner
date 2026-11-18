@@ -14,7 +14,7 @@ Project: Warehouse Robot Path and Task Planner (CSEG3053). Rules live in `../PRO
 - Add notes for each finished build item (what, why, complexity, viva questions).
 
 ## Controlled tags
-`project`, `process`, `environment`, `graphify`, `metrics`, `parser`, `testing`, `complexity`, `viva`
+`project`, `process`, `environment`, `graphify`, `metrics`, `parser`, `graph`, `heap`, `testing`, `complexity`, `viva`
 
 ## Registry
 ### project
@@ -37,3 +37,11 @@ Project: Warehouse Robot Path and Task Planner (CSEG3053). Rules live in `../PRO
 - `20261119-parser-validation-and-errors` — **Parser validation rules and error codes** — `topics/parser/parser-validation-and-errors.md` — Every check, five error codes, message format.
 - `20261119-parser-design-and-complexity` — **Parser design and complexity** — `topics/parser/parser-design-and-complexity.md` — Structure and best/average/worst time and space.
 - `20261119-parser-viva-questions` — **Parser explain-back and viva questions** — `topics/parser/parser-viva-questions.md` — 5-line summary and likely evaluator questions.
+
+### heap
+- `20261119-heap-design-and-complexity` — **Min-heap design and complexity** — `topics/heap/heap-design-and-complexity.md` — Array layout, push/pop, lazy deletion, best/average/worst.
+- `20261119-heap-viva-questions` — **Min-heap explain-back and viva questions** — `topics/heap/heap-viva-questions.md` — 5-line summary and likely evaluator questions.
+
+### graph
+- `20261119-graph-design-and-complexity` — **Grid to graph design and complexity** — `topics/graph/graph-design-and-complexity.md` — Nodes, arcs, CSR storage, BFS reachability, time and space.
+- `20261119-graph-viva-questions` — **Graph explain-back and viva questions** — `topics/graph/graph-viva-questions.md` — 5-line summary and likely evaluator questions.

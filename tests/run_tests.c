@@ -6,6 +6,8 @@ int main(void)
 {
     test_metrics();
     test_parser();
-    /* later: test_graph(); test_heap(); test_dijkstra(); ... */
+    test_graph();
+    test_heap();
+    /* later: test_dijkstra(); ... */
     return harness_summary();
 }

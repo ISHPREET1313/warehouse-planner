@@ -1,15 +1,51 @@
 /*
  * main.c - entry point. Later this becomes the CLI menu (item 8).
  *
- * For now:  planner <input-file>   parses and validates the file and prints
- *           the problem, or prints the error message.
+ * For now:  planner <input-file>   parses and validates the file, prints the
+ *           problem, builds the graph and reports tasks no robot can reach,
+ *           or prints the error message.
  *           planner                 prints the skeleton banner.
  */
 #include <stdio.h>
 
+#include "graph.h"
 #include "io.h"
 #include "metrics.h"
 #include "problem.h"
+
+/* Build the graph of p and print its size and any unreachable tasks. */
+static int report_graph(const Problem *p)
+{
+    Graph g;
+    int flags[MAX_TASKS];
+    int bad, i;
+
+    if (graph_build(p, &g) != 0) {
+        printf("graph: could not be built (out of memory?)\n");
+        return 1;
+    }
+    printf("graph: nodes=%d walkable=%d arcs=%d\n", g.n, g.n_walkable, g.n_arcs);
+
+    bad = graph_unreachable_tasks(p, &g, flags);
+    if (bad < 0) {
+        printf("graph: reachability check failed (out of memory?)\n");
+        graph_free(&g);
+        return 1;
+    }
+    if (bad == 0) {
+        printf("reachability: every task can be reached by some robot\n");
+    } else {
+        printf("reachability: %d task(s) cannot be reached by any robot:\n", bad);
+        for (i = 0; i < p->n_tasks; i++) {
+            if (flags[i]) {
+                printf("  task %d at (%d,%d)\n", i + 1,
+                       p->tasks[i].row, p->tasks[i].col);
+            }
+        }
+    }
+    graph_free(&g);
+    return 0;
+}
 
 int main(int argc, char **argv)
 {
@@ -17,6 +53,7 @@ int main(int argc, char **argv)
     Problem p;
     char err[200];
     ParseStatus st;
+    int rc;
 
     printf("Warehouse Robot Path and Task Planner\n");
 
@@ -27,8 +64,9 @@ int main(int argc, char **argv)
             return 1;
         }
         problem_print(&p);
+        rc = report_graph(&p);
         problem_free(&p);
-        return 0;
+        return rc;
     }
 
     printf("Skeleton build OK. Usage: planner <input-file>\n");

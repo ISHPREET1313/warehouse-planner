@@ -18,10 +18,10 @@ Each item is finished completely (code, tests, complexity note, explain-back) be
 ## Details
 PRIMARY
 1. Skeleton, Makefile, harness, metrics - DONE (user verified, 12/12 tests).
-2. Parser and validator - CODE WRITTEN 2026-11-19, waiting for the user's build/test output.
-3. Grid to graph conversion.
-4. Min-heap (user writes it).
-5. Dijkstra with heap (user writes it).
+2. Parser and validator - DONE (user verified, 139/139 tests).
+3. Grid to graph conversion - DONE (user verified, 231/231 tests).
+4. Min-heap (Claude writes it since the 2026-11-19 authorship change) - CODE WRITTEN, waiting for the user's build/test output.
+5. Dijkstra with heap (Claude writes it too).
 6. Dijkstra with array scan, and Bellman-Ford, as comparisons.
 7. Test suite: normal, boundary, invalid, stress, adversarial.
 8. CLI menu and ASCII path replay.

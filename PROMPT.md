@@ -40,9 +40,10 @@ Language: C17, gcc -Wall -Wextra with sanitizers during development,
 Makefile build. Standard library only for core algorithms.
 Input format: plain text (no JSON, to avoid writing a parser).
 Replay file: plain text records (GRID, ROBOT, STEP, EVENT lines).
-Authorship: I write the min-heap and Dijkstra myself. For those two you
-give pseudocode, hints and review, and quiz me. For everything else you
-may write the code and then teach it to me.
+Authorship: Claude writes all the code, including the min-heap and
+Dijkstra. I am the admin and reviewer. For every module you teach the
+code to me, and the review/viva questions you have for me go into
+docs/QUESTIONS.md and the module's viva-questions note.
 
 BUILD ORDER. Finish each tier completely (code, tests, complexity note,
 explain-back) before starting the next.
@@ -135,3 +136,5 @@ outside this folder. Never delete files without asking.
 - [date] [what changed and why]
 - 2026-11-19 Admin change: no clarifying questions in chat, they go to
   docs/QUESTIONS.md (rule 6.7). Edit-announcement no longer blocks.
+- 2026-11-19 Admin change: Authorship. Claude now writes the min-heap and
+  Dijkstra too; admin reviews. Items 4 and 5 stay in build order.
