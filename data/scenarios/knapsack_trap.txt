@@ -1,0 +1,7 @@
+# Scenario helper: greedy knapsack picks the wrong load (160 vs 220).
+MAP 1 7
+R.T.T.T
+ROBOT 50 100
+TASK 10 60 1
+TASK 20 100 1
+TASK 30 120 1

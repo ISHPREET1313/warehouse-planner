@@ -57,6 +57,24 @@ typedef struct {
  */
 int dijkstra(const Graph *g, int source, ShortestPaths *sp);
 
+/*
+ * Item 6 comparison: the same algorithm with NO heap. Each round it finds
+ * the unfinished node with the smallest distance by scanning all nodes.
+ * Same inputs, same result, same return values as dijkstra().
+ *
+ * Counters: every unfinished node examined in a scan = one comparison
+ * ("is dist[i] smaller than the best so far?"), every arc tested = one
+ * relaxation, no heap pushes or pops. aux_bytes = dist + prev + a done flag
+ * per node (n bytes).
+ * If R nodes are reachable, the scans cost R*n - R*(R-1)/2 + (n - R)
+ * comparisons (the last scan only finds unreachable nodes).
+ *
+ * Complexity: time Theta(V * R + E), so O(V^2 + E) worst and average, best
+ * Theta(V + E) when the source is boxed in (R = 1, one scan per round is
+ * still n); space O(V).
+ */
+int dijkstra_scan(const Graph *g, int source, ShortestPaths *sp);
+
 /* Free the arrays and reset sp. Safe on NULL and when called twice. */
 void sp_free(ShortestPaths *sp);
 

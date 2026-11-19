@@ -1,0 +1,89 @@
+# large: 62 rows x 80 cols, shelf blocks with aisles and cross aisles,
+# 4 robots, 20 tasks. All tasks reachable.
+MAP 62 80
+################################################################################
+#D.T..........................R....................T..........................C#
+#..SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSS..#
+#..SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSS..#
+#.....................................................................T........#
+#........T.....................................................................#
+#..SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSS..#
+#..SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSS..#
+#..............................................................................#
+#.....................................T........................................#
+#..SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSS..#
+#..SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSS..#
+#..............................................................................#
+#..............................................T...............................#
+#..SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSS..#
+#..SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSS..#
+#....................................T.........................................#
+#..............................................................................#
+#..SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSS..#
+#..SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSS..#
+#................................................R....T........................#
+#.....................................................T........................#
+#..SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSS..#
+#..SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSS..#
+#..............................................................................#
+#..............................................................................#
+#..SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSS..#
+#..SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSS..#
+#.......T......................................................................#
+#..........................................................................T...#
+#..SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSS..#
+#..SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSS..#
+#..............................................................................#
+#..............................................................................#
+#..SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSS..#
+#..SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSS..#
+#.........T....................T...............................................#
+#..............R...............................................................#
+#..SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSS..#
+#..SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSS..#
+#..............................................................................#
+#................................................T.......................T.....#
+#..SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSS..#
+#..SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSS..#
+#..............................................................................#
+#..............................................................................#
+#..SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSS..#
+#..SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSS..#
+#...........................T..................................................#
+#...................................................................R..........#
+#..SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSS..#
+#..SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSS..#
+#..............................................................................#
+#.............................T.................T..............................#
+#..SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSS..#
+#..SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSS..#
+#..............................................................................#
+#.........................................................................T....#
+#..SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSS..#
+#..SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.SSSSSSSS..#
+#C...................................................................T.........#
+################################################################################
+ROBOT 19 225
+ROBOT 9 173
+ROBOT 15 214
+ROBOT 13 325
+TASK 9 29 1
+TASK 7 29 3
+TASK 9 10 5
+TASK 3 46 5
+TASK 6 40 1
+TASK 4 7 2
+TASK 6 24 1
+TASK 4 28 4
+TASK 6 32 3
+TASK 6 10 2
+TASK 1 45 2
+TASK 6 30 3
+TASK 3 15 2
+TASK 9 7 1
+TASK 4 47 2
+TASK 1 50 3
+TASK 2 47 1
+TASK 6 34 2
+TASK 6 5 5
+TASK 1 5 4

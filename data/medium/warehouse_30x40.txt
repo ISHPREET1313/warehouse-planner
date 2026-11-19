@@ -1,0 +1,44 @@
+# medium: 30 rows x 40 cols, shelf blocks with aisles and cross aisles,
+# 3 robots, 8 tasks. All tasks reachable.
+MAP 30 40
+########################################
+#D............................R.......C#
+#..SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.S..#
+#..SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.S..#
+#.........T...............T.T..........#
+#.............................T........#
+#..SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.S..#
+#..SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.S..#
+#......................................#
+#........................T.............#
+#..SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.S..#
+#..SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.S..#
+#.................T....................#
+#...............R......................#
+#..SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.S..#
+#..SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.S..#
+#......................................#
+#......................................#
+#..SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.S..#
+#..SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.S..#
+#...............................R......#
+#...............T..T...................#
+#..SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.S..#
+#..SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.S..#
+#......................................#
+#......................................#
+#..SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.S..#
+#..SSSSSSSSSS.SSSSSSSSSS.SSSSSSSSSS.S..#
+#C.....................................#
+########################################
+ROBOT 18 268
+ROBOT 14 391
+ROBOT 13 380
+TASK 8 39 4
+TASK 8 42 3
+TASK 6 5 2
+TASK 7 24 3
+TASK 4 41 3
+TASK 5 41 2
+TASK 8 48 4
+TASK 4 32 1

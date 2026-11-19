@@ -1,0 +1,6 @@
+# truncated_map: the header promises 5 rows but only 3 follow.
+# Expected: PARSE_ERR_MAP.
+MAP 5 4
+R...
+....
+..T.

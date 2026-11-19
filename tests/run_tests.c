@@ -9,6 +9,16 @@ int main(void)
     test_graph();
     test_heap();
     test_dijkstra();
-    /* later: test_bellman_ford(); ... */
+    test_dijkstra_scan();
+    test_bellman_ford();
+    test_files();
+    test_knapsack();
+    test_tsp();
+    test_planner();
+    test_export();
+    test_bench();
+    test_route();
+    test_replay();
+    test_play();
     return harness_summary();
 }

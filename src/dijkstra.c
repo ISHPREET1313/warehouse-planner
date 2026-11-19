@@ -114,3 +114,75 @@ int sp_path(const ShortestPaths *sp, int target, int *out, int max_len)
     }
     return len;
 }
+
+/* ---- Item 6: the same algorithm, but a plain array scan instead of a heap ---- */
+
+int dijkstra_scan(const Graph *g, int source, ShortestPaths *sp)
+{
+    char *done;                     /* done[i] = 1 once node i is final */
+    int a, i, u, v, best, nd;
+
+    if (sp == NULL) {
+        return -1;
+    }
+    memset(sp, 0, sizeof *sp);
+    if (g == NULL || g->first == NULL || g->to == NULL || g->weight == NULL
+        || g->n < 1 || source < 0 || source >= g->n) {
+        return -1;
+    }
+    for (a = 0; a < g->n_arcs; a++) {
+        if (g->weight[a] < 0 || g->weight[a] > DIJKSTRA_MAX_WEIGHT) {
+            return -1;
+        }
+    }
+
+    sp->dist = (int *)malloc((size_t)g->n * sizeof(int));
+    sp->prev = (int *)malloc((size_t)g->n * sizeof(int));
+    done     = (char *)calloc((size_t)g->n, 1);
+    if (sp->dist == NULL || sp->prev == NULL || done == NULL) {
+        free(done);
+        sp_free(sp);
+        return -1;
+    }
+    ADD_AUX_BYTES(2 * (size_t)g->n * sizeof(int) + (size_t)g->n);
+
+    sp->n = g->n;
+    sp->source = source;
+    for (i = 0; i < g->n; i++) {
+        sp->dist[i] = DIST_INF;
+        sp->prev[i] = -1;
+    }
+    sp->dist[source] = 0;
+
+    for (;;) {
+        /* Scan: find the unfinished node with the smallest distance. */
+        best = -1;
+        for (i = 0; i < g->n; i++) {
+            if (done[i]) {
+                continue;
+            }
+            COUNT_COMPARISON();
+            if (sp->dist[i] < DIST_INF
+                && (best == -1 || sp->dist[i] < sp->dist[best])) {
+                best = i;
+            }
+        }
+        if (best == -1) {
+            break;                  /* nothing reachable is left */
+        }
+        u = best;
+        done[u] = 1;
+        for (a = g->first[u]; a < g->first[u + 1]; a++) {
+            v = g->to[a];
+            nd = sp->dist[u] + g->weight[a];
+            COUNT_RELAXATION();
+            if (nd < sp->dist[v]) {
+                sp->dist[v] = nd;
+                sp->prev[v] = u;
+            }
+        }
+    }
+
+    free(done);
+    return 0;
+}

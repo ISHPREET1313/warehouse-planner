@@ -1,0 +1,8 @@
+# bad_symbol: row 2 contains an X, which is not a map symbol.
+# Expected: PARSE_ERR_MAP (message names line 5, column 2).
+MAP 3 4
+R...
+.X..
+..T.
+ROBOT 5 20
+TASK 2 10 3

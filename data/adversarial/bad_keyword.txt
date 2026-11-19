@@ -1,0 +1,7 @@
+# bad_keyword: WALL is not a known line type.
+# Expected: PARSE_ERR_SYNTAX.
+MAP 2 3
+R..
+...
+ROBOT 5 20
+WALL 1 2

@@ -1,0 +1,13 @@
+# sealed_task: the second task sits in a closed box of walls.
+# Expected: parse OK, exactly one task unreachable.
+MAP 7 9
+#########
+#R..T...#
+#.......#
+#########
+#...#T#.#
+#...###.#
+#########
+ROBOT 5 100
+TASK 2 10 1
+TASK 3 20 2

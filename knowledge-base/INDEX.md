@@ -14,12 +14,12 @@ Project: Warehouse Robot Path and Task Planner (CSEG3053). Rules live in `../PRO
 - Add notes for each finished build item (what, why, complexity, viva questions).
 
 ## Controlled tags
-`project`, `process`, `environment`, `graphify`, `metrics`, `parser`, `graph`, `heap`, `dijkstra`, `testing`, `complexity`, `viva`
+`project`, `process`, `environment`, `graphify`, `metrics`, `parser`, `graph`, `heap`, `dijkstra`, `comparison`, `bellman-ford`, `knapsack`, `tsp`, `planner`, `benchmark`, `testing`, `complexity`, `viva`
 
 ## Registry
 ### project
 - `20261119-project-overview` — **Project overview** — `topics/project/project-overview.md` — What the planner is, who it is for, how it is assessed.
-- `20261119-build-order` — **Build order and progress** — `topics/project/build-order.md` — The 18 items in tier order and which are done.
+- `20261119-build-order` — **Build order and progress** — `topics/project/build-order.md` — The demo core first (items 9 to 14), the rest of the 23 items on hold; which are done.
 - `20261119-working-rules` — **Working rules** — `topics/project/working-rules.md` — Authorship split, one module at a time, questions go to a file.
 
 ### environment
@@ -46,6 +46,26 @@ Project: Warehouse Robot Path and Task Planner (CSEG3053). Rules live in `../PRO
 - `20261119-dijkstra-design-and-complexity` — **Dijkstra with heap design and complexity** — `topics/dijkstra/dijkstra-design-and-complexity.md` — Loop, lazy deletion, counters, best/average/worst, hand example.
 - `20261119-dijkstra-viva-questions` — **Dijkstra explain-back and viva questions** — `topics/dijkstra/dijkstra-viva-questions.md` — 5-line summary and likely evaluator questions.
 
+### comparison
+- `20261119-comparison-design-and-complexity` — **Dijkstra array scan and Bellman-Ford design and complexity** — `topics/comparison/comparison-design-and-complexity.md` — How each works, counters, best/average/worst, when to use which.
+- `20261119-comparison-viva-questions` — **Scan and Bellman-Ford explain-back and viva questions** — `topics/comparison/comparison-viva-questions.md` — 5-line summary and likely evaluator questions.
+
 ### graph
 - `20261119-graph-design-and-complexity` — **Grid to graph design and complexity** — `topics/graph/graph-design-and-complexity.md` — Nodes, arcs, CSR storage, BFS reachability, time and space.
 - `20261119-graph-viva-questions` — **Graph explain-back and viva questions** — `topics/graph/graph-viva-questions.md` — 5-line summary and likely evaluator questions.
+
+### knapsack
+- `20261119-knapsack-design-and-complexity` — **0/1 knapsack design and complexity** — `topics/knapsack/knapsack-design-and-complexity.md` — DP vs greedy, counters, the case where greedy fails.
+- `20261119-knapsack-viva-questions` — **Knapsack explain-back and viva questions** — `topics/knapsack/knapsack-viva-questions.md` — 5-line summary and likely evaluator questions.
+
+### tsp
+- `20261119-tsp-design-and-complexity` — **Pickup order (TSP) design and complexity** — `topics/tsp/tsp-design-and-complexity.md` — Nearest neighbour vs Held-Karp, counters, worked example.
+- `20261119-tsp-viva-questions` — **Pickup order explain-back and viva questions** — `topics/tsp/tsp-viva-questions.md` — 5-line summary and likely evaluator questions.
+
+### planner
+- `20261119-planner-design-and-complexity` — **Planner pipeline design and complexity** — `topics/planner/planner-design-and-complexity.md` — Five steps, rounds, battery trimming, worked example.
+- `20261119-planner-viva-questions` — **Planner explain-back and viva questions** — `topics/planner/planner-viva-questions.md` — 5-line summary and likely evaluator questions.
+
+### benchmark
+- `20261119-benchmark-design-and-results` — **Benchmark design and results** — `topics/benchmark/benchmark-design-and-results.md` — What the table measures and what the saved numbers show.
+- `20261119-benchmark-viva-questions` — **Benchmark explain-back and viva questions** — `topics/benchmark/benchmark-viva-questions.md` — 5-line summary and likely evaluator questions.

@@ -1,0 +1,7 @@
+# no_tasks: a valid input with zero tasks.
+MAP 4 5
+#####
+#R..#
+#...#
+#####
+ROBOT 5 20

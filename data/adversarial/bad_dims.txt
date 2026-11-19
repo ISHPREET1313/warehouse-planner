@@ -1,0 +1,5 @@
+# bad_dims: the header asks for 0 rows.
+# Expected: PARSE_ERR_MAP.
+MAP 0 5
+.....
+ROBOT 5 20

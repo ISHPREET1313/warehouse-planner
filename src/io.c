@@ -325,8 +325,14 @@ static ParseStatus parse_map(Reader *rd, Problem *p,
         }
         for (c = 0; c < p->cols; c++) {
             if (!problem_is_symbol(line[c])) {
-                return fail(err, err_size, PARSE_ERR_MAP, rd->line_no,
-                            "invalid map symbol (allowed: . # S C D R T)");
+                char msg[96];
+                size_t n = 0;
+
+                msg[0] = '\0';
+                put_text(msg, sizeof msg, &n, "invalid map symbol at column ");
+                put_number(msg, sizeof msg, &n, c + 1);
+                put_text(msg, sizeof msg, &n, " (allowed: . # S C D R T)");
+                return fail(err, err_size, PARSE_ERR_MAP, rd->line_no, msg);
             }
             p->cells[r * p->cols + c] = line[c];
 

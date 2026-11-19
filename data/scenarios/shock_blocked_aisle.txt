@@ -1,0 +1,14 @@
+# Scenario 2, constraint shock: sample1 after a blocked aisle (extra wall at
+# row 2, col 5) and a capacity drop (robot 1: capacity 10 -> 4, battery 40 -> 14).
+MAP 6 8
+D......C
+.SS..SS.
+.R.###T.
+.SS..SS.
+..T..R..
+C.....T.
+ROBOT 4 14
+ROBOT 6 30
+TASK 4 20 3
+TASK 3 15 5
+TASK 5 30 1

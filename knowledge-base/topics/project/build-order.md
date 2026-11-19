@@ -5,32 +5,35 @@ tags: [project, process]
 created: 2026-11-19
 updated: 2026-11-19
 related: [20261119-project-overview, 20261119-working-rules]
-summary: The 18 build items in tier order, with which are done, and the finish-before-next rule.
+summary: The demo core (items 1 to 14) is built and verified; only the short item 23 remains; items 8 and 15 to 22 are dropped.
 ---
 
 # Build order and progress
 
-> Summary: The 18 build items in tier order, with which are done, and the finish-before-next rule.
+> Summary: The demo core (items 1 to 14) is built and verified; only the short item 23 remains; items 8 and 15 to 22 are dropped.
 
 ## Context
-Each item is finished completely (code, tests, complexity note, explain-back) before the next starts. `docs/TODO.md` and `docs/STATE.md` hold the live status; this note is the stable outline.
+Evaluation is Saturday 21 November 2026 (solo, 8-minute demo + 4-minute viva). The scope is the demo core: the admin asked the teachers and was told to implement only what is required (docs/QUESTIONS.md Q25). `PROMPT.md` section 4 holds the stable plan; `docs/TODO.md` and `docs/STATE.md` hold the live status.
 
 ## Details
-PRIMARY
-1. Skeleton, Makefile, harness, metrics - DONE (user verified, 12/12 tests).
-2. Parser and validator - DONE (user verified, 139/139 tests).
-3. Grid to graph conversion - DONE (user verified, 231/231 tests).
-4. Min-heap (Claude writes it since the 2026-11-19 authorship change) - CODE WRITTEN, waiting for the user's build/test output.
-5. Dijkstra with heap (Claude writes it too) - CODE WRITTEN and wired in, waiting for the same build/test output.
-6. Dijkstra with array scan, and Bellman-Ford, as comparisons.
-7. Test suite: normal, boundary, invalid, stress, adversarial.
-8. CLI menu and ASCII path replay.
-9. Benchmarks and CSV output.
+DEMO CORE, all verified by running (1045 tests passing)
+1. Skeleton, Makefile, harness, metrics - DONE
+2. Parser and validator - DONE
+3. Grid to graph - DONE
+4. Min-heap - DONE
+5. Dijkstra with heap - DONE
+6. Dijkstra array scan and Bellman-Ford - DONE
+7. Test suite and data files - DONE
+9. 0/1 knapsack, DP vs greedy - DONE
+10. Pickup order, nearest neighbour vs Held-Karp - DONE
+11. Planner pipeline (assignment, loads, routes, battery) - DONE
+12. Three scenarios (normal, constraint shock, large stress) - DONE (data files + both strategy sets printed)
+13. CLI menu and CSV export - DONE
+14. Benchmark table (`planner --bench`) - DONE
+23 (short). Demo script, viva notes, README - NEXT, then tag v1-core.
 
-IMPORTANT: 10 knapsack DP vs greedy, 11 nearest neighbour vs Held-Karp, 12 merge sort vs quick sort, 13 seeded generator.
-
-SECONDARY: 14 bipartite matching, 15 KMP vs naive, 16 Ford-Fulkerson, 17 extra generator profiles, 18 raylib viewer. Teach the idea first for 14 to 16.
+DROPPED (teachers: implement only what is required): item 8 (sorting and search), items 15 to 22 (the remaining syllabus algorithms from the brief, library packaging, full report). Reopen only if a teacher names a missing algorithm.
 
 ## Related
 - [Project overview](project-overview.md) — prerequisite: what is being built.
-- [Working rules](working-rules.md) — see-also: who writes which module.
+- [Working rules](working-rules.md) — see-also: how Claude and the admin work.

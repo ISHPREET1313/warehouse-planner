@@ -1,0 +1,12 @@
+# boxed_robot: the first robot is walled in, the second robot can reach both tasks.
+# Expected: parse OK, no task unreachable overall, robot 1 reaches nothing.
+MAP 5 11
+###########
+#R#.......#
+###..T....#
+#....R..T.#
+###########
+ROBOT 5 100
+ROBOT 6 100
+TASK 2 10 1
+TASK 3 20 2

@@ -22,7 +22,8 @@ Instructor approved AI assistance. The student must be able to explain, trace, d
 - No clarifying questions in chat (admin change 2026-11-19): state the assumption, continue, log it in `docs/QUESTIONS.md`.
 - Memory between chats is only the files: `docs/STATE.md`, `DECISIONS.md`, `TODO.md`, `HANDOFF.md` (overwritten each session), `QUESTIONS.md`, and this knowledge base.
 - Never edit outside the project folder. Never delete files without asking.
-- Claude cannot run code in the user's folder; the user pastes real build and test output.
+- Claude runs builds, tests and the program on the user's laptop through Remote Desktop Commander when it is connected (otherwise the user pastes the real output). Commits and pushes wait for the admin's word.
+- Quality loop (PROMPT.md section 6b): plan with hand-worked expected numbers, code, review, then log each mistake in `docs/LESSONS.md`.
 
 ## Related
 - [Project overview](project-overview.md) — prerequisite.
