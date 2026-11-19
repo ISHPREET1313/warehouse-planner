@@ -20,5 +20,6 @@ int main(void)
     test_route();
     test_replay();
     test_play();
+    test_playview();
     return harness_summary();
 }
