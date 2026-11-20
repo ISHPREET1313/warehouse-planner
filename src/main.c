@@ -9,7 +9,9 @@
  *                          plan with both strategy sets, build the cell-by-cell
  *                          routes (route.h) and write a replay file (replay.h).
  *   planner --play <replay-file>
- *                          watch a replay file in the terminal (play.h).
+ *                          watch a replay file in the terminal: the real-time
+ *                          player (playrun.h) on a Windows console, otherwise
+ *                          the line-based player (play.h).
  *   planner                interactive menu (works with typed or piped input).
  *
  * Strategy sets (same input, compared on results and operation counts):
@@ -30,6 +32,7 @@
 #include "metrics.h"
 #include "planner.h"
 #include "play.h"
+#include "playrun.h"
 #include "problem.h"
 #include "replay.h"
 #include "route.h"
@@ -312,7 +315,10 @@ static int run_play_file(const char *path)
         printf("cannot play %s: %s\n", path, err[0] ? err : "file cannot be read");
         return 1;
     }
-    rc = play_run(&rp, 0, stdin, stdout, PLAY_DELAY_MS, 1);
+    rc = playrun_live(&rp, 0);                     /* real-time player on a console */
+    if (rc == PLAYRUN_UNAVAILABLE) {
+        rc = play_run(&rp, 0, stdin, stdout, PLAY_DELAY_MS, 1);   /* line-based */
+    }
     replay_free(&rp);
     return rc == 0 ? 0 : 1;
 }
@@ -516,7 +522,10 @@ static void menu_play(void)
         printf("the replay could not be read back: %s\n", err);
         return;
     }
-    play_run(&rp, 0, stdin, stdout, PLAY_DELAY_MS, 1);
+    rc = playrun_live(&rp, 0);
+    if (rc == PLAYRUN_UNAVAILABLE) {
+        play_run(&rp, 0, stdin, stdout, PLAY_DELAY_MS, 1);
+    }
     replay_free(&rp);
 }
 

@@ -25,7 +25,7 @@ endif
 
 # Algorithm/support modules shared by the planner and the tests.
 # Add each new module here as we build it (grid.c, heap.c, dijkstra.c, ...).
-CORE_SRC = src/metrics.c src/problem.c src/io.c src/graph.c src/heap.c src/dijkstra.c src/bellman_ford.c src/knapsack.c src/tsp.c src/planner.c src/export.c src/bench.c src/route.c src/replay.c src/play.c src/playview.c src/playlive.c
+CORE_SRC = src/metrics.c src/problem.c src/io.c src/graph.c src/heap.c src/dijkstra.c src/bellman_ford.c src/knapsack.c src/tsp.c src/planner.c src/export.c src/bench.c src/route.c src/replay.c src/play.c src/playview.c src/playlive.c src/playrun.c
 CORE_OBJ = $(CORE_SRC:.c=.o)
 
 MAIN_OBJ = src/main.o

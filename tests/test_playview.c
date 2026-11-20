@@ -50,6 +50,140 @@ static void check_layout(const char *name, int rows, int cols, int tw, int th,
     check_long(label, side, lo.panel_side);
 }
 
+static void check_layout_k(const char *name, int rows, int cols, int tw, int th,
+                           int n, int kk, int rc, int w, int br, int bc, int mw,
+                           int side)
+{
+    PlayLayout lo;
+    char label[96];
+
+    memset(&lo, 99, sizeof lo);
+    sprintf(label, "forced %s: return code", name);
+    check_long(label, rc, play_layout_k(rows, cols, tw, th, n, kk, &lo));
+    sprintf(label, "forced %s: k", name);
+    check_long(label, rc == 0 ? kk : 0, lo.k);
+    sprintf(label, "forced %s: cell width", name);
+    check_long(label, w, lo.cell_w);
+    sprintf(label, "forced %s: drawn lines", name);
+    check_long(label, br, lo.block_rows);
+    sprintf(label, "forced %s: drawn cells per line", name);
+    check_long(label, bc, lo.block_cols);
+    sprintf(label, "forced %s: map width", name);
+    check_long(label, mw, lo.map_w);
+    sprintf(label, "forced %s: panel at the side", name);
+    check_long(label, side, lo.panel_side);
+}
+
+/* State as "tick plan tps playing zoom quit". */
+static const char *state_text(const PlayState *s)
+{
+    static char text[64];
+
+    sprintf(text, "%d %d %d %d %d %d", s->tick, s->plan, s->tps, s->playing,
+            s->zoom_k, s->quit);
+    return text;
+}
+
+/* Press the key and return the state text. Two plans: 30 and 360 ticks. */
+static const char *press(PlayState *s, int key, int auto_k)
+{
+    static const int nt[2] = {30, 360};
+
+    play_apply_key(s, key, 2, nt, auto_k);
+    return state_text(s);
+}
+
+/*
+ * Worked by hand. Plan 0 has 30 ticks (default speed 30/18 = 1, raised to
+ * 4), plan 1 has 360 (360/18 = 20). init: "0 0 4 1 0 0".
+ */
+static void check_state_machine(void)
+{
+    PlayState s;
+    static const int nt[2] = {30, 360};
+
+    play_state_init(&s, 30);
+    check_str("state: init", "0 0 4 1 0 0", state_text(&s));
+    check_str("key space pauses", "0 0 4 0 0 0", press(&s, ' ', 3));
+    check_str("key space plays", "0 0 4 1 0 0", press(&s, ' ', 3));
+    check_str("key +: 4 to 8", "0 0 8 1 0 0", press(&s, '+', 3));
+    check_str("key +: 8 to 16", "0 0 16 1 0 0", press(&s, '+', 3));
+    press(&s, '+', 3);
+    press(&s, '+', 3);
+    check_str("key +: 16 to 32, 64, 128 (3 more presses)", "0 0 128 1 0 0", press(&s, '+', 3));
+    check_str("key +: 256 is cut to 240", "0 0 240 1 0 0", press(&s, '+', 3));
+    check_str("key +: stays at 240", "0 0 240 1 0 0", press(&s, '+', 3));
+    check_str("key -: 240 to 120", "0 0 120 1 0 0", press(&s, '-', 3));
+    play_state_init(&s, 30);
+    press(&s, '-', 3);
+    press(&s, '-', 3);
+    check_str("key -: 4 to 2 to 1", "0 0 1 1 0 0", state_text(&s));
+    check_str("key -: stays at 1", "0 0 1 1 0 0", press(&s, '-', 3));
+
+    check_str("key z from automatic k=3 gives 2", "0 0 1 1 2 0", press(&s, 'z', 3));
+    check_str("key z gives 1", "0 0 1 1 1 0", press(&s, 'z', 3));
+    check_str("key z stays at 1", "0 0 1 1 1 0", press(&s, 'z', 3));
+    check_str("key x gives 2", "0 0 1 1 2 0", press(&s, 'x', 3));
+    check_str("key 0 back to automatic", "0 0 1 1 0 0", press(&s, '0', 3));
+    check_str("key x from automatic k=3 gives 4", "0 0 1 1 4 0", press(&s, 'x', 3));
+    s.zoom_k = PLAY_MAX_ZOOM;
+    check_str("key x stops at the maximum", "0 0 1 1 1000 0", press(&s, 'x', 3));
+
+    play_state_init(&s, 30);
+    check_str("key n: one tick forward and pause", "1 0 4 0 0 0", press(&s, 'n', 1));
+    check_str("key b: back to 0", "0 0 4 0 0 0", press(&s, 'b', 1));
+    check_str("key b at 0 stays", "0 0 4 0 0 0", press(&s, 'b', 1));
+    s.tick = 30;
+    check_str("key n at the last tick stays", "30 0 4 0 0 0", press(&s, 'n', 1));
+    check_str("key space at the end plays again", "0 0 4 1 0 0", press(&s, ' ', 1));
+
+    s.tick = 17;
+    check_str("key p: plan 1, tick 0, speed 20", "0 1 20 1 0 0", press(&s, 'p', 1));
+    check_str("key p: back to plan 0, speed 4", "0 0 4 1 0 0", press(&s, 'p', 1));
+    s.tick = 9;
+    s.playing = 0;
+    check_str("key r restarts and plays", "0 0 4 1 0 0", press(&s, 'r', 1));
+
+    check_str("unknown key changes nothing", "0 0 4 1 0 0", press(&s, 'k', 1));
+    check_str("key code 0 changes nothing", "0 0 4 1 0 0", press(&s, 0, 1));
+    check_str("upper case P works", "0 1 20 1 0 0", press(&s, 'P', 1));
+    check_str("key q quits", "0 1 20 1 0 1", press(&s, 'q', 1));
+    play_state_init(&s, 30);
+    check_str("key Esc quits", "0 0 4 1 0 1", press(&s, 27, 1));
+    play_state_init(&s, 30);
+    check_str("key Q quits", "0 0 4 1 0 1", press(&s, 'Q', 1));
+
+    play_state_init(&s, 30);
+    check_long("apply invalid: NULL state", -1, play_apply_key(NULL, 'q', 2, nt, 1));
+    check_long("apply invalid: NULL plan table", -1, play_apply_key(&s, 'q', 2, NULL, 1));
+    check_long("apply invalid: 0 plans", -1, play_apply_key(&s, 'q', 0, nt, 1));
+    check_long("apply invalid: auto_k 0", -1, play_apply_key(&s, 'q', 2, nt, 0));
+    s.plan = 2;
+    check_long("apply invalid: plan outside the table", -1, play_apply_key(&s, 'q', 2, nt, 1));
+    check_long("apply invalid: state left unchanged (no quit)", 0, s.quit);
+    play_state_init(&s, 360);
+    check_str("init for 360 ticks gives speed 20", "0 0 20 1 0 0", state_text(&s));
+    play_state_init(NULL, 5);
+
+    /* time: advance */
+    play_state_init(&s, 30);
+    play_advance(&s, 30);
+    check_str("advance at 4 per second: one tick", "1 0 4 1 0 0", state_text(&s));
+    s.tps = 60;
+    play_advance(&s, 30);
+    check_str("advance at 60 per second: two ticks", "3 0 60 1 0 0", state_text(&s));
+    s.tick = 29;
+    play_advance(&s, 30);
+    check_str("advance reaching the end stops there", "30 0 60 0 0 0", state_text(&s));
+    play_advance(&s, 30);
+    check_str("advance while stopped changes nothing", "30 0 60 0 0 0", state_text(&s));
+    play_state_init(&s, 0);
+    play_advance(&s, 0);
+    check_str("advance on a run of 0 ticks stops at once", "0 0 4 0 0 0", state_text(&s));
+    check_long("advance invalid: NULL state", -1, play_advance(NULL, 5));
+    check_long("advance invalid: negative n_ticks", -1, play_advance(&s, -1));
+}
+
 /* Trail of a path as "r,c;r,c;..." ("" if none), or "error". */
 static const char *trail_text(const int *row, const int *col, int len, int tick,
                               int max_dots)
@@ -163,4 +297,17 @@ void test_playview(void)
     check_long("frame: 31 per second skips one", 2, play_ticks_per_frame(31));
     check_long("frame: 60 per second", 2, play_ticks_per_frame(60));
     check_long("frame: 61 per second", 3, play_ticks_per_frame(61));
+
+    /* forced zoom (same rules as play_layout, one k) */
+    check_layout_k("62x80 k=2 in 144x38", 62, 80, 144, 38, 4, 2, 0, 2, 31, 40, 80, 1);
+    check_layout_k("62x80 k=3 in 144x38", 62, 80, 144, 38, 4, 3, 0, 2, 21, 27, 54, 1);
+    check_layout_k("62x80 k=1 does not fit", 62, 80, 144, 38, 4, 1, -2, 0, 0, 0, 0, 0);
+    check_layout_k("6x8 k=1", 6, 8, 144, 38, 2, 1, 0, 2, 6, 8, 16, 1);
+    check_layout_k("20x50 k=1 uses 1-wide cells", 20, 50, 60, 40, 2, 1, 0, 1, 20, 50, 50, 0);
+    check_layout_k("invalid k=0", 6, 8, 144, 38, 2, 0, -1, 0, 0, 0, 0, 0);
+    check_long("forced zoom invalid: NULL out", -1,
+               play_layout_k(6, 8, 80, 24, 2, 1, NULL));
+
+    /* key and time state machine */
+    check_state_machine();
 }

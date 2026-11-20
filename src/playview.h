@@ -113,4 +113,58 @@ int play_delay_ms(int tps);
 /* Ticks advanced per drawn frame: 1 up to PLAY_MAX_FPS, else ceil(tps / 30). */
 int play_ticks_per_frame(int tps);
 
+/*
+ * 5. FORCED ZOOM  play_layout_k  same as play_layout but for one given k
+ *    (the z / x keys). Cell width 2, except k = 1 which also tries 1.
+ *    Returns 0 and fills *out, -1 for bad arguments (k < 1), -2 if that k
+ *    does not fit this terminal.
+ *
+ * 6. KEYS AND TIME  PlayState, play_state_init, play_apply_key, play_advance
+ *    The whole behaviour of the live player as a pure state machine, so it
+ *    is tested without a console. The console code only reads a key and
+ *    calls these.
+ *      space  pause / play (at the last tick: play again from tick 0)
+ *      + / -  double / halve the speed (1 .. PLAY_USER_MAX_TPS ticks/s)
+ *      z / x  zoom in / out: k - 1 (not below 1) / k + 1 (not above
+ *             PLAY_MAX_ZOOM); from automatic it starts at the current k
+ *      0      back to automatic zoom
+ *      n / b  one tick forward / back, and pause
+ *      p      next plan, from tick 0, playing, with that plan's default speed
+ *      r      restart the plan from tick 0, playing
+ *      q, Esc quit (upper case letters count as lower case)
+ */
+#define PLAY_USER_MAX_TPS  240
+#define PLAY_MAX_ZOOM     1000
+
+typedef struct {
+    int tick;       /* current tick of the current plan                     */
+    int plan;       /* index of the plan shown                              */
+    int tps;        /* ticks per second while playing                       */
+    int playing;    /* 1 = time runs                                        */
+    int zoom_k;     /* 0 = automatic, otherwise the k the user chose        */
+    int quit;       /* 1 = leave the player                                 */
+} PlayState;
+
+int play_layout_k(int map_rows, int map_cols, int term_w, int term_h,
+                  int n_robots, int k, PlayLayout *out);
+
+/* tick 0, plan 0, playing, automatic zoom, default speed for n_ticks. */
+void play_state_init(PlayState *s, int n_ticks);
+
+/*
+ * Apply one key. n_ticks_of_plan[i] is the last tick of plan i (n_plans
+ * entries), auto_k the k the automatic layout uses now. Returns 0, or -1 for
+ * a NULL argument, n_plans < 1, a plan index outside the state or auto_k < 1
+ * (the state is then unchanged). Unknown keys change nothing.
+ */
+int play_apply_key(PlayState *s, int key, int n_plans,
+                   const int *n_ticks_of_plan, int auto_k);
+
+/*
+ * One frame of time: while playing, tick += play_ticks_per_frame(tps); on
+ * reaching n_ticks it stops there and playing becomes 0. Returns 0, or -1
+ * for a NULL state or n_ticks < 0.
+ */
+int play_advance(PlayState *s, int n_ticks);
+
 #endif /* PLAYVIEW_H */

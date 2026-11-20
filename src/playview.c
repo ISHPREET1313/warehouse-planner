@@ -3,6 +3,7 @@
  * No printing, no console calls, no allocation.
  */
 #include <stddef.h>
+#include <string.h>
 
 #include "playview.h"
 
@@ -87,6 +88,26 @@ int play_layout(int map_rows, int map_cols, int term_w, int term_h,
     return -2;
 }
 
+int play_layout_k(int map_rows, int map_cols, int term_w, int term_h,
+                  int n_robots, int k, PlayLayout *out)
+{
+    if (out == NULL) {
+        return -1;
+    }
+    memset(out, 0, sizeof *out);
+    if (map_rows < 1 || map_cols < 1 || term_w < 1 || term_h < 1 ||
+        n_robots < 1 || k < 1) {
+        return -1;
+    }
+    if (try_layout(map_rows, map_cols, k, 2, term_w, term_h, n_robots, out) ||
+        (k == 1 &&
+         try_layout(map_rows, map_cols, 1, 1, term_w, term_h, n_robots, out))) {
+        return 0;
+    }
+    memset(out, 0, sizeof *out);
+    return -2;
+}
+
 int play_block_class(int has_robot, int has_task_wait, int has_task_done,
                      int has_special, int blocked, int cells)
 {
@@ -166,4 +187,108 @@ int play_ticks_per_frame(int tps)
         return 1;
     }
     return ceil_div(tps, PLAY_MAX_FPS);
+}
+
+void play_state_init(PlayState *s, int n_ticks)
+{
+    if (s == NULL) {
+        return;
+    }
+    s->tick = 0;
+    s->plan = 0;
+    s->tps = play_default_tps(n_ticks);
+    s->playing = 1;
+    s->zoom_k = 0;
+    s->quit = 0;
+}
+
+int play_apply_key(PlayState *s, int key, int n_plans,
+                   const int *n_ticks_of_plan, int auto_k)
+{
+    int last;
+
+    if (s == NULL || n_ticks_of_plan == NULL || n_plans < 1 ||
+        s->plan < 0 || s->plan >= n_plans || auto_k < 1) {
+        return -1;
+    }
+    last = n_ticks_of_plan[s->plan];
+    if (key >= 'A' && key <= 'Z') {
+        key = key - 'A' + 'a';
+    }
+    switch (key) {
+    case ' ':
+        if (s->tick >= last) {
+            s->tick = 0;                    /* finished: play again */
+            s->playing = 1;
+        } else {
+            s->playing = !s->playing;
+        }
+        break;
+    case '+':
+        s->tps = s->tps * 2 > PLAY_USER_MAX_TPS ? PLAY_USER_MAX_TPS : s->tps * 2;
+        break;
+    case '-':
+        s->tps = s->tps / 2 < 1 ? 1 : s->tps / 2;
+        break;
+    case 'z':
+        s->zoom_k = (s->zoom_k == 0 ? auto_k : s->zoom_k) - 1;
+        if (s->zoom_k < 1) {
+            s->zoom_k = 1;
+        }
+        break;
+    case 'x':
+        s->zoom_k = (s->zoom_k == 0 ? auto_k : s->zoom_k) + 1;
+        if (s->zoom_k > PLAY_MAX_ZOOM) {
+            s->zoom_k = PLAY_MAX_ZOOM;
+        }
+        break;
+    case '0':
+        s->zoom_k = 0;
+        break;
+    case 'n':
+        if (s->tick < last) {
+            s->tick++;
+        }
+        s->playing = 0;
+        break;
+    case 'b':
+        if (s->tick > 0) {
+            s->tick--;
+        }
+        s->playing = 0;
+        break;
+    case 'p':
+        s->plan = (s->plan + 1) % n_plans;
+        s->tick = 0;
+        s->playing = 1;
+        s->tps = play_default_tps(n_ticks_of_plan[s->plan]);
+        break;
+    case 'r':
+        s->tick = 0;
+        s->playing = 1;
+        break;
+    case 'q':
+    case 27:
+        s->quit = 1;
+        break;
+    default:
+        break;
+    }
+    return 0;
+}
+
+int play_advance(PlayState *s, int n_ticks)
+{
+    if (s == NULL || n_ticks < 0) {
+        return -1;
+    }
+    if (!s->playing) {
+        return 0;
+    }
+    s->tick += play_ticks_per_frame(s->tps);
+    if (s->tick >= n_ticks) {
+        s->tick = n_ticks;
+        s->playing = 0;
+    }
+    return 0;
 }

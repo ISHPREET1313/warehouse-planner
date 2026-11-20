@@ -29,6 +29,7 @@
 
 #include "harness.h"
 #include "playlive.h"
+#include "playrun.h"
 #include "replay.h"
 #include "tests.h"
 
@@ -191,6 +192,11 @@ void test_playlive(void)
     bad.block_rows = 3;
     check_long("invalid: layout does not match the map", -1,
                playlive_frame(&rp, 0, 0, &bad, TERM_W, TERM_H, 0, 4, 0, frame, sizeof frame));
+    /* playrun_live validates its arguments BEFORE it looks at the console, so
+     * these calls never draw anything (a real run is checked by eye). */
+    check_long("live invalid: NULL replay", -1, playrun_live(NULL, 0));
+    check_long("live invalid: plan -1", -1, playrun_live(&rp, -1));
+    check_long("live invalid: plan 1 does not exist", -1, playrun_live(&rp, 1));
     replay_free(&rp);
 
     /* ---- SCALED ---- */
