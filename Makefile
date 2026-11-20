@@ -44,11 +44,18 @@ run_tests$(EXE): $(TEST_OBJ) $(CORE_OBJ)
 test: run_tests$(EXE)
 	./run_tests$(EXE)
 
+# Independent oracle (plain BFS, shares no code with src/) that makes the data
+# files and the expected numbers of tests/test_files.c. Not part of the planner.
+gen: gen_testdata$(EXE)
+
+gen_testdata$(EXE): tools/gen_testdata.c
+	$(CC) $(CSTD) $(WARN) -g $(OPT) -o $@ $<
+
 # Any .o is built from the .c with the same name; rebuild if a header changes.
 %.o: %.c $(HEADERS)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	$(RM) src/*.o tests/*.o planner$(EXE) run_tests$(EXE)
+	$(RM) src/*.o tests/*.o planner$(EXE) run_tests$(EXE) gen_testdata$(EXE)
 
-.PHONY: all test clean
+.PHONY: all test clean gen

@@ -5,10 +5,10 @@
  * File tests: each file is parsed, turned into a graph, and every robot is
  * run through all three algorithms (heap, scan, Bellman-Ford). The expected
  * costs from each robot to each task were NOT taken from the C code: they
- * come from a separate breadth-first search written in Python
- * (see docs/TESTING.md for how to regenerate them). The same script gives the
- * independent walkable-cell and arc counts, which also catch a typo in a
- * map file.
+ * come from a separate breadth-first search written in C in
+ * tools/gen_testdata.c, which includes nothing from src/ (build it with
+ * make gen; see docs/TESTING.md). The same program gives the independent
+ * walkable-cell and arc counts, which also catch a typo in a map file.
  *
  * Adversarial shapes (built by hand, counts worked out on paper):
  *  - "fan": makes the heap hold as many pairs as the capacity allows

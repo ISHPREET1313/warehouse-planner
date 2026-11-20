@@ -92,7 +92,7 @@ All algorithms count comparisons, relaxations, heap pushes and pops and auxiliar
 
 ## Testing
 
-`make test` runs more than 1600 checks, printed as an expected-versus-actual table, and returns a non-zero exit code if any check fails. Categories: normal, boundary, invalid input, stress (500 x 500 maps) and adversarial input (sealed task, boxed-in robot, 240-step snake corridor, equal keys, negative cycles). Results are checked against independent oracles: brute force over all subsets (knapsack), over all orders (pickup order), a plain 2D table (knapsack DP), Bellman-Ford against Dijkstra on 200 random graphs, and a separate Python generator and BFS (`tools/gen_testdata.py`) for the data files. Counters are checked against hand-derived formulas, for example 41 + 31 + 21 = 93 comparisons for the classic knapsack case.
+`make test` runs more than 1600 checks, printed as an expected-versus-actual table, and returns a non-zero exit code if any check fails. Categories: normal, boundary, invalid input, stress (500 x 500 maps) and adversarial input (sealed task, boxed-in robot, 240-step snake corridor, equal keys, negative cycles). Results are checked against independent oracles: brute force over all subsets (knapsack), over all orders (pickup order), a plain 2D table (knapsack DP), Bellman-Ford against Dijkstra on 200 random graphs, and a separate C generator and BFS (`tools/gen_testdata.c`, built with `make gen`) for the data files. Counters are checked against hand-derived formulas, for example 41 + 31 + 21 = 93 comparisons for the classic knapsack case.
 
 ## Project layout
 
@@ -105,7 +105,7 @@ All algorithms count comparisons, relaxations, heap pushes and pops and auxiliar
                       replay.c, play.c and playrun.c do I/O.
     tests/            one test_*.c per module and a small harness
     data/             small, medium, large, adversarial and scenarios input files
-    tools/            gen_testdata.py (independent oracle for the data files)
+    tools/            gen_testdata.c (independent oracle for the data files, plain BFS)
     knowledge-base/   per-module notes: design, complexity, viva questions (start at INDEX.md)
     docs/             local working notes; not tracked in git
 

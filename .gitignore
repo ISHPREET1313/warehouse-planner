@@ -14,6 +14,9 @@ test_play_*.txt
 # local working notes (kept on the laptop only)
 docs/
 
+# output folder of tools/gen_testdata.c
+out/
+
 # scratch
 audit_*.txt
 menu_in.txt
