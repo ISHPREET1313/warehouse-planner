@@ -21,5 +21,6 @@ int main(void)
     test_replay();
     test_play();
     test_playview();
+    test_playlive();
     return harness_summary();
 }

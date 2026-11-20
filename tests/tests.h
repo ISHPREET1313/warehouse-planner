@@ -19,5 +19,6 @@ void test_route(void);
 void test_replay(void);
 void test_play(void);
 void test_playview(void);
+void test_playlive(void);
 
 #endif /* TESTS_H */
