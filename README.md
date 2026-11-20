@@ -9,7 +9,7 @@ C11, standard library only, fully offline. Developed and tested with MinGW GCC 6
 Run everything from the project root.
 
     make                              build planner
-    make clean && make test           build and run the test suite (more than 1400 checks)
+    make clean && make test           build and run the test suite (more than 1600 checks)
     planner                           interactive menu
     planner data/small/sample1.txt    one-shot report for one input file
     planner --bench                   the benchmark table
@@ -51,10 +51,14 @@ The planner decides which robot serves which task and in what order. `route.c` t
 
 `planner --play <file>` (or menu 10) plays the replay in the terminal. The player only draws a recording; it never plans, so removing it leaves the planner output unchanged.
 
-    1-9, a-w  robots     T  waiting task    x  picked task
-    .  floor    #  wall    =  shelf    C  charger    D  dock
+On a Windows console (Windows Terminal, Windows 10 or later) it is a real-time, coloured player. It measures the window every frame and chooses the layout from the map size and the window size, so nothing depends on a fixed screen size: a small map is drawn cell by cell, a large one is scaled so that each drawn square covers k x k map cells (the 62 x 80 map fits a 144 x 38 window at k = 2, without scrolling). Each robot has its own colour for its marker, its trail (the last three cells it left) and its line in the side panel. A waiting task T has the colour of the robot that will pick it, and a task that no robot takes in this plan is a red ?.
 
-Commands, one per line: Enter = one tick forward, `b` back, `a` auto-play, `+` / `-` speed, `p` switch between plan A and B, `u` / `d` scroll, `q` quit. Maps taller than 20 rows are shown through a scrolling window (so the 62 x 80 scenario works); maps wider than 100 columns are refused. On a console that understands ANSI codes the symbols are coloured.
+    robots 1-9, a-w on their own colour     T  waiting task     ?  unserved task
+    o  trail    x  picked task    C  charger    D  dock    brown = shelf, grey = wall
+
+Keys (no Enter needed): space pause / play, + and - speed, z and x zoom in / out, 0 automatic zoom, n and b one tick forward / back, p switch between plan A and B, r restart, q or Esc quit. A run takes about 15 to 20 seconds at the default speed.
+
+If the output is not a console (a pipe or a file), or the console cannot show colour codes, the older line-based player is used instead: Enter = one tick forward, b back, a auto-play, + and - speed, p switch plan, u and d scroll, q quit.
 
 ## Algorithms
 
@@ -88,15 +92,17 @@ All algorithms count comparisons, relaxations, heap pushes and pops and auxiliar
 
 ## Testing
 
-`make test` runs more than 1400 checks, printed as an expected-versus-actual table, and returns a non-zero exit code if any check fails. Categories: normal, boundary, invalid input, stress (500 x 500 maps) and adversarial input (sealed task, boxed-in robot, 240-step snake corridor, equal keys, negative cycles). Results are checked against independent oracles: brute force over all subsets (knapsack), over all orders (pickup order), a plain 2D table (knapsack DP), Bellman-Ford against Dijkstra on 200 random graphs, and a separate Python generator and BFS (`tools/gen_testdata.py`) for the data files. Counters are checked against hand-derived formulas, for example 41 + 31 + 21 = 93 comparisons for the classic knapsack case.
+`make test` runs more than 1600 checks, printed as an expected-versus-actual table, and returns a non-zero exit code if any check fails. Categories: normal, boundary, invalid input, stress (500 x 500 maps) and adversarial input (sealed task, boxed-in robot, 240-step snake corridor, equal keys, negative cycles). Results are checked against independent oracles: brute force over all subsets (knapsack), over all orders (pickup order), a plain 2D table (knapsack DP), Bellman-Ford against Dijkstra on 200 random graphs, and a separate Python generator and BFS (`tools/gen_testdata.py`) for the data files. Counters are checked against hand-derived formulas, for example 41 + 31 + 21 = 93 comparisons for the classic knapsack case.
 
 ## Project layout
 
     src/              problem, io (parser), graph, heap, dijkstra, bellman_ford, knapsack,
                       tsp, planner, route (cell-by-cell paths), replay (replay file),
-                      play (terminal player), export (CSV), bench, metrics, main.
+                      play (line-based player), playview (pure layout, trail, speed and
+                      key decisions), playlive (builds one coloured frame), playrun
+                      (real-time console loop), export (CSV), bench, metrics, main.
                       Algorithms do no printing; only main.c, bench.c, export.c,
-                      replay.c and play.c do I/O.
+                      replay.c, play.c and playrun.c do I/O.
     tests/            one test_*.c per module and a small harness
     data/             small, medium, large, adversarial and scenarios input files
     tools/            gen_testdata.py (independent oracle for the data files)
