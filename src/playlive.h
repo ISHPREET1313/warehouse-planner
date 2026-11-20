@@ -16,7 +16,9 @@
  *   map      block_rows lines of block_cols cells, each cell_w characters:
  *              robot      its number (1-9, then a, b, ...), on its own colour
  *              T          task waiting, in the colour of the robot that will
- *                         pick it; white on red = no robot takes it
+ *                         pick it
+ *              ?          task that NO robot takes in this plan (white on
+ *                         dark red; red is not a robot colour)
  *              x          task already picked, dim
  *              o          trail: the last 3 different cells a robot stood on
  *                         (bold, normal, dim); shown on floor and chargers
@@ -52,8 +54,10 @@
 #include "playview.h"
 #include "replay.h"
 
+/* Plain-mode legend (colour mode draws the same words with real swatches).
+ * Short enough for an 80-column terminal. */
 #define PLAYLIVE_LEGEND \
-    "o trail  T task  x picked  # wall  = shelf  C charger  D dock  red = unserved"
+    "o trail  T task  ? unserved  x picked  C charger  D dock  == shelf  ## wall"
 #define PLAYLIVE_KEYS \
     "space pause  +/- speed  z/x zoom  0 auto  n/b step  p plan  q quit"
 

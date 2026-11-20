@@ -154,7 +154,7 @@ void test_playlive(void)
     check_long("colour: ends with erase below", 0,
                strcmp(frame + strlen(frame) - 3, "\033[J"));
     check_long("colour: robot 1 uses its colour", 1,
-               strstr(frame, "\033[48;5;196m") != NULL);
+               strstr(frame, "\033[48;5;208m") != NULL);
     check_long("colour: no full screen clear", 0, strstr(frame, "\033[2J") != NULL);
     check_long("colour: each of the 5 lines ends with erase-to-end", 5,
                count_str(frame, "\033[K"));
@@ -164,6 +164,9 @@ void test_playlive(void)
     plain(&rp, 3, 0, frame, sizeof frame);
     check_long("plain: 5 newlines", 5, count_char(frame, '\n'));
     check_long("plain: no escape codes", 0, strchr(frame, '\033') != NULL);
+    check_long("plain legend text", 1,
+               strstr(frame, "o trail  T task  ? unserved  x picked  C charger  "
+                             "D dock  == shelf  ## wall\n") != NULL);
 
     /* ---- invalid arguments ---- */
     check_long("invalid: NULL replay", -1,
@@ -233,7 +236,7 @@ void test_playlive(void)
     check_long("nobody: frame built", 1, n > 0);
     check_str("nobody frame (empty map line is padded)",
               "plan A  tick 0/0  DONE: 0 of 1 tasks, value 0  full map  4 ticks/s\n"
-              "1 . T   1 load 0/10  battery 0/20  next done\n"
+              "1 . ?   1 load 0/10  battery 0/20  next done\n"
               "        events: none\n"
               PLAYLIVE_LEGEND "\n" PLAYLIVE_KEYS "\n",
               frame);
@@ -241,6 +244,12 @@ void test_playlive(void)
     playlive_frame(&rp, 0, 0, &lo, TERM_W, TERM_H, 1, 4, 0, frame, sizeof frame);
     check_long("nobody: unserved task is white on red", 1,
                strstr(frame, "\033[48;5;88m") != NULL);
+    check_long("colour legend: shelf swatch (this map has no shelf)", 1,
+               strstr(frame, "\033[48;5;94m") != NULL);
+    check_long("colour legend: wall swatch (this map has no wall)", 1,
+               strstr(frame, "\033[48;5;244m") != NULL);
+    check_long("colour legend: says unserved", 1, strstr(frame, " unserved  ") != NULL);
+    check_long("colour legend: no word red", 0, strstr(frame, "red") != NULL);
     replay_free(&rp);
     remove(FILE_NAME);
 }

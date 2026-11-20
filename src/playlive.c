@@ -18,7 +18,7 @@
 
 /* One colour per robot (256-colour codes); the robot number is always
  * printed too, so robots 9 and up and colour-blind viewers stay readable. */
-static const int PAL[PAL_N] = {196, 46, 39, 201, 214, 51, 226, 141};
+static const int PAL[PAL_N] = {208, 46, 39, 201, 226, 51, 141, 250};   /* no red: red = unserved */
 
 /* ---------- output buffer ---------- */
 
@@ -237,11 +237,12 @@ static void draw_block(Out *o, const Blocks *b, int i, int cell_w, int rank_of_r
                     FG_BLACK);
             break;
         case BLOCK_TASK_WAIT:
-            t[0] = 'T';
-            if (b->wait_owner[i] > 0) {
+            if (b->wait_owner[i] > 0) {          /* a robot will pick it */
+                t[0] = 'T';
                 sprintf(st, "\033[48;5;%dm\033[38;5;%dm\033[1m", BG_FLOOR,
                         PAL[(b->wait_owner[i] - 1) % PAL_N]);
-            } else {
+            } else {                             /* no robot takes it */
+                t[0] = '?';
                 sprintf(st, "\033[48;5;88m\033[38;5;231m\033[1m");
             }
             break;
@@ -276,6 +277,37 @@ static void draw_block(Out *o, const Blocks *b, int i, int cell_w, int rank_of_r
     set_style(o, st);
     t[cell_w] = '\0';
     put(o, t);
+}
+
+/* The legend with the real colours (colour mode). Every symbol is drawn the
+ * way it appears on the map, so nothing has to be explained by a colour
+ * name. Cut at width characters like every other line. */
+typedef struct {
+    const char *style;       /* escape codes, "" = default */
+    const char *text;
+} LegendPart;
+
+static void emit_legend(Out *o, int width)
+{
+    static const LegendPart part[] = {
+        {"\033[48;5;234m\033[38;5;208m", "o"},          {"", " trail  "},
+        {"\033[48;5;234m\033[38;5;39m\033[1m", "T"},    {"", " task  "},
+        {"\033[48;5;88m\033[38;5;231m\033[1m", "?"},    {"", " unserved  "},
+        {"\033[48;5;234m\033[38;5;240m", "x"},          {"", " picked  "},
+        {"\033[48;5;234m\033[38;5;51m\033[1m", "C"},    {"", " charger  "},
+        {"\033[48;5;234m\033[38;5;46m\033[1m", "D"},    {"", " dock  "},
+        {"\033[48;5;94m", "  "},                        {"", " shelf  "},
+        {"\033[48;5;244m", "  "},                       {"", " wall"}
+    };
+    size_t i;
+    int left = width, n;
+
+    for (i = 0; i < sizeof part / sizeof part[0] && left > 0; i++) {
+        set_style(o, part[i].style);
+        n = (int)strlen(part[i].text);
+        put_cut(o, part[i].text, left);
+        left -= n;
+    }
 }
 
 static int ceil_div(int a, int b)
@@ -477,7 +509,11 @@ int playlive_frame(const Replay *rp, int plan_index, int tick,
 
     /* legend and keys */
     set_style(&o, "");
-    put_cut(&o, PLAYLIVE_LEGEND, term_w);
+    if (color) {
+        emit_legend(&o, term_w);
+    } else {
+        put_cut(&o, PLAYLIVE_LEGEND, term_w);
+    }
     eol(&o, 0);
     put_cut(&o, PLAYLIVE_KEYS, term_w);
     eol(&o, 1);
